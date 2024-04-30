@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
+import axios from "axios";
 
 function Add() {
   const [visible, setVisible] = useState(false);
@@ -18,15 +19,21 @@ function Add() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
-    setVisible(false);
-    toast.current.show({
-      severity: "success",
-      summary: "Form Submitted",
-      // detail: getValues("value"),
-      life: 1000,
-    });
+    // console.log(data
+
+    axios
+      .post("http://localhost:8080/", data)
+      .then((res) => {
+        reset();
+        setVisible(false);
+        toast.current.show({
+          severity: "success",
+          summary: "Form Submitted",
+          detail: res.data.message,
+          life: 1000,
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   const getFormErrorMessage = (name) => {

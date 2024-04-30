@@ -3,8 +3,19 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import Add from "./Components/Add";
 import Update from "./Components/Update";
 import TableData from "./Components/TableData";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [counter, setCounter] = useState(0);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/counter")
+      .then((res) => {
+        setCounter(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <PrimeReactProvider>
       <div className="flex flex-column gap-3">
@@ -14,6 +25,7 @@ function App() {
           <Update />
         </div>
         <TableData />
+        {counter[0]?.count}
       </div>
     </PrimeReactProvider>
   );
