@@ -23,19 +23,19 @@ function Add({ setData, setCounter }) {
     // console.log(data
     setLoading(true);
     axios
-      .post("http://localhost:8080/", data)
+      .post("https://dataneuron-task2-backend.onrender.com/", data)
       .then((res) => {
         setLoading(false);
         reset();
         setVisible(false);
         axios
-          .get("http://localhost:8080/")
+          .get("https://dataneuron-task2-backend.onrender.com/")
           .then((res) => {
             setData(res.data.data);
           })
           .catch((err) => console.log(err));
         axios
-          .get("http://localhost:8080/counter")
+          .get("https://dataneuron-task2-backend.onrender.com/")
           .then((res) => {
             setCounter(res.data.data);
           })

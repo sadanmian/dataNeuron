@@ -12,7 +12,7 @@ function App() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8080/counter")
+      .get("https://dataneuron-task2-backend.onrender.com/counter")
       .then((res) => {
         setCounter(res.data.data);
       })

@@ -29,16 +29,16 @@ function Update({ data, setData, setCounter }) {
   const onSubmit = (updatedData) => {
     setLoading(true);
     axios
-      .patch("http://localhost:8080/", updatedData)
+      .patch("https://dataneuron-task2-backend.onrender.com/", updatedData)
       .then((res) => {
         axios
-          .get("http://localhost:8080/")
+          .get("https://dataneuron-task2-backend.onrender.com/")
           .then((res) => {
             setData(res.data.data);
           })
           .catch((err) => console.log(err));
         axios
-          .get("http://localhost:8080/counter")
+          .get("https://dataneuron-task2-backend.onrender.com/counter")
           .then((res) => {
             setCounter(res.data.data);
           })

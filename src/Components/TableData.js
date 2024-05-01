@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 function TableData({ data, setData }) {
   useEffect(() => {
     axios
-      .get("http://localhost:8080/")
+      .get("https://dataneuron-task2-backend.onrender.com/")
       .then((res) => {
         setData(res.data.data);
       })
