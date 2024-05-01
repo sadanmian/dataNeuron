@@ -31,6 +31,18 @@ function Update({ data, setData, setCounter }) {
     axios
       .patch("http://localhost:8080/", updatedData)
       .then((res) => {
+        axios
+          .get("http://localhost:8080/")
+          .then((res) => {
+            setData(res.data.data);
+          })
+          .catch((err) => console.log(err));
+        axios
+          .get("http://localhost:8080/counter")
+          .then((res) => {
+            setCounter(res.data.data);
+          })
+          .catch((err) => console.log(err));
         setLoading(false);
         reset();
         setUpdateVisible(false);

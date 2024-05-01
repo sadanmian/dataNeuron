@@ -5,6 +5,7 @@ import Update from "./Components/Update";
 import TableData from "./Components/TableData";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Tag } from "primereact/tag";
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -26,7 +27,14 @@ function App() {
           <Update data={data} setData={setData} setCounter={setCounter} />
         </div>
         <TableData data={data} setData={setData} />
-        {counter[0]?.count}
+        <div className="flex gap-2 align-items-center">
+          API call of Add:
+          <Tag severity="warning" value={counter[0]?.count}></Tag>
+        </div>
+        <div className="flex gap-2 align-items-center">
+          API call of Update:
+          <Tag severity="warning" value={counter[1]?.count}></Tag>
+        </div>
       </div>
     </PrimeReactProvider>
   );

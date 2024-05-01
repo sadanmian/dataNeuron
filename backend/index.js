@@ -52,7 +52,8 @@ app.post("/", async (req, res) => {
 app.patch("/", async (req, res) => {
   try {
     const { method } = req;
-    const checkReq = await Counter.find({ method: "PATCH" });
+    const checkReq = await Counter.findOne({ method: "PATCH" });
+    console.log(checkReq);
     if (!checkReq) {
       const newCounter = new Counter({ method, count: 1 });
       await newCounter.save();
