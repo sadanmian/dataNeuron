@@ -7,11 +7,11 @@ import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import axios from "axios";
 
-function Update() {
+function Update({ data, setData, setCounter }) {
   const [updateVisible, setUpdateVisible] = useState(false);
   const toast = useRef(null);
-  const [data, setData] = useState({});
   const { control, handleSubmit, reset } = useForm();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -27,9 +27,11 @@ function Update() {
   }, [data]);
 
   const onSubmit = (updatedData) => {
+    setLoading(true);
     axios
       .patch("http://localhost:8080/", updatedData)
       .then((res) => {
+        setLoading(false);
         reset();
         setUpdateVisible(false);
         toast.current.show({
@@ -39,7 +41,15 @@ function Update() {
           life: 1000,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: err?.message,
+          life: 1000,
+        });
+      });
   };
 
   return (
@@ -175,7 +185,12 @@ function Update() {
               />
             </div>
           </div>
-          <Button label="Submit" type="submit" icon="pi pi-check" />
+          <Button
+            loading={loading}
+            label="Update"
+            type="submit"
+            icon="pi pi-check"
+          />
         </form>
       </Dialog>
     </div>

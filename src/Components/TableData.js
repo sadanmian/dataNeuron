@@ -3,8 +3,7 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import React, { useEffect, useState } from "react";
 
-function TableData() {
-  const [data, setData] = useState({});
+function TableData({ data, setData }) {
   useEffect(() => {
     axios
       .get("http://localhost:8080/")

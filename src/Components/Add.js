@@ -7,9 +7,10 @@ import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import axios from "axios";
 
-function Add() {
+function Add({ setData, setCounter }) {
   const [visible, setVisible] = useState(false);
   const toast = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
@@ -20,12 +21,25 @@ function Add() {
 
   const onSubmit = (data) => {
     // console.log(data
-
+    setLoading(true);
     axios
       .post("http://localhost:8080/", data)
       .then((res) => {
+        setLoading(false);
         reset();
         setVisible(false);
+        axios
+          .get("http://localhost:8080/")
+          .then((res) => {
+            setData(res.data.data);
+          })
+          .catch((err) => console.log(err));
+        axios
+          .get("http://localhost:8080/counter")
+          .then((res) => {
+            setCounter(res.data.data);
+          })
+          .catch((err) => console.log(err));
         toast.current.show({
           severity: "success",
           summary: "Form Submitted",
@@ -33,7 +47,15 @@ function Add() {
           life: 1000,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: err?.message,
+          life: 1000,
+        });
+      });
   };
 
   const getFormErrorMessage = (name) => {
@@ -172,7 +194,12 @@ function Add() {
               />
             </div>
           </div>
-          <Button label="Submit" type="submit" icon="pi pi-check" />
+          <Button
+            loading={loading}
+            label="Submit"
+            type="submit"
+            icon="pi pi-check"
+          />
         </form>
       </Dialog>
     </div>

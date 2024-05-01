@@ -8,6 +8,7 @@ import axios from "axios";
 
 function App() {
   const [counter, setCounter] = useState(0);
+  const [data, setData] = useState([]);
   useEffect(() => {
     axios
       .get("http://localhost:8080/counter")
@@ -21,10 +22,10 @@ function App() {
       <div className="flex flex-column gap-3">
         {/* Button */}
         <div className="flex gap-5">
-          <Add />
-          <Update />
+          <Add data={data} setData={setData} setCounter={setCounter} />
+          <Update data={data} setData={setData} setCounter={setCounter} />
         </div>
-        <TableData />
+        <TableData data={data} setData={setData} />
         {counter[0]?.count}
       </div>
     </PrimeReactProvider>
