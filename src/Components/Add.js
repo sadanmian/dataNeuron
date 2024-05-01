@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import axios from "axios";
 
-function Add({ setData, setCounter }) {
+function Add({ setData, setCounter, setExecution, execution }) {
   const [visible, setVisible] = useState(false);
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -21,6 +21,7 @@ function Add({ setData, setCounter }) {
 
   const onSubmit = (data) => {
     // console.log(data
+    const a = performance.now().toFixed(2);
     setLoading(true);
     axios
       .post("https://dataneuron-task2-backend.onrender.com/", data)
@@ -55,6 +56,10 @@ function Add({ setData, setCounter }) {
           detail: err?.message,
           life: 1000,
         });
+      })
+      .finally((e) => {
+        const b = performance.now().toFixed(2);
+        setExecution({ ...execution, add: b - a });
       });
   };
 

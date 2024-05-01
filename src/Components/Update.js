@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import axios from "axios";
 
-function Update({ data, setData, setCounter }) {
+function Update({ data, setData, setCounter, setExecution, execution }) {
   const [updateVisible, setUpdateVisible] = useState(false);
   const toast = useRef(null);
   const { control, handleSubmit, reset } = useForm();
@@ -27,6 +27,7 @@ function Update({ data, setData, setCounter }) {
   }, [data]);
 
   const onSubmit = (updatedData) => {
+    const a = performance.now().toFixed(2);
     setLoading(true);
     axios
       .patch("https://dataneuron-task2-backend.onrender.com/", updatedData)
@@ -61,6 +62,10 @@ function Update({ data, setData, setCounter }) {
           detail: err?.message,
           life: 1000,
         });
+      })
+      .finally((e) => {
+        const b = performance.now().toFixed(2);
+        setExecution({ ...execution, update: b - a });
       });
   };
 
